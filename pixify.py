@@ -31,3 +31,4 @@ def pixellate(image_path, output_path, pixel_size, num_colors):
     print(f"Saved {output_path}")
 
 pixellate('/Users/mindaika/Downloads/img.webp', '/Users/mindaika/Downloads/output.png', 16, 256)
+# Change for Commit
