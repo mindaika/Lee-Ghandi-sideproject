@@ -34,7 +34,7 @@ def get_input():
     entry2 = tk.Entry(root)
     entry2.pack()
 
-    # Create a button
+     # Create a button
     button = tk.Button(root, text="Pixellate", command=root.quit)
     button.pack()
 
