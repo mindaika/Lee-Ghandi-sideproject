@@ -2,7 +2,7 @@
 name = "lee-ghandi-sideproject"
 version = "0.1.0"
 description = "A collection of side-projects"
-authors = ["Randall Sewell <randallsewell@fastmail.com>"]
+authors = ["Randall Sewell <mindaika@garbanzo.monster>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
