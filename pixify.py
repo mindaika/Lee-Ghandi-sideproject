@@ -1,6 +1,12 @@
-from PIL import Image
+from PIL import Image # type: ignore
+import openai
 import tkinter as tk
 from tkinter import ttk
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Load an image from a file
 def load_image(image_path):
