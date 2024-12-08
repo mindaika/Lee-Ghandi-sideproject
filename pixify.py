@@ -1,4 +1,4 @@
-from PIL import Image # type: ignore
+from PIL import Image
 import openai
 import tkinter as tk
 from tkinter import ttk
@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 API_KEY = os.getenv("OPENAI_API_KEY")
+SERVICE_ACCOUNT = os.getenv("OPENAI_SERVICE_ACCOUNT")
 
 # Load an image from a file
 def load_image(image_path):
