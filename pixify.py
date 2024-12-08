@@ -1,5 +1,6 @@
 from PIL import Image
 import tkinter as tk
+from tkinter import ttk
 
 # Load an image from a file
 def load_image(image_path):
@@ -18,31 +19,22 @@ def get_input():
     root = tk.Tk()
     root.title("Pixify")
 
-    # Create a label
-    label = tk.Label(root, text="Enter the pixel size:")
-    label.pack(side=tk.TOP)
+    fields = {}
 
-    # Create an entry
-    entry = tk.Entry(root)
-    entry.pack()
+    fields['pixel_size_label'] = ttk.Label(text='Enter the pixel size:')
+    fields['pixel_size'] = ttk.Entry()
 
-    # Create another label
-    label2 = tk.Label(root, text="Enter the number of colors:")
-    label2.pack(side=tk.TOP)
+    fields['num_colors_label'] = ttk.Label(text='Enter the number of colors:')
+    fields['num_colors'] = ttk.Entry(show="*")
 
-    # Create another entry
-    entry2 = tk.Entry(root)
-    entry2.pack()
+    fields['image_label'] = ttk.Label(text='Tell me what you want to draw and pixellate')
+    fields['image'] = ttk.Entry()
 
-    # Create another label
-    label3 = tk.Label(root, text="Tell me what you want to draw and pixellate")
-    label3.pack(side=tk.TOP, ipadx=20)
-
-    # Create another entry
-    entry3 = tk.Entry(root)
-    entry3.pack() 
+    for field in fields.values():
+        field.pack(anchor=tk.W, padx=10, pady=5, fill=tk.X)
 
      # Create a button
+    
     button = tk.Button(root, text="Pixellate", command=root.quit)
     button.pack()
 
@@ -54,8 +46,8 @@ def get_input():
     root.mainloop()
 
     # Get the values from the entries
-    pixel_size = int(entry.get())
-    num_colors = int(entry2.get())
+    pixel_size = int(fields['pixel_size'].get())
+    num_colors = int(fields['num_colors'].get())
 
     # Destroy the window
     root.destroy()
