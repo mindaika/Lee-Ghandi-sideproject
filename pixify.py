@@ -28,6 +28,7 @@ from tkinter import ttk
 from PIL import Image
 from PIL import UnidentifiedImageError
 from PIL.ImageFile import ImageFile
+import openai
 from openai import OpenAI
 from dotenv import load_dotenv
 import requests
@@ -109,6 +110,10 @@ def get_input():
     fields['num_colors_label'] = ttk.Label(text='Enter the number of colors:')
     fields['num_colors'] = ttk.Entry(show="*")
     fields['num_colors'].insert(0, "256")
+ 
+    fields['path_label'] = ttk.Label(text='Where do you wanna stick it?')
+    fields['path'] = ttk.Entry()
+    fields['path'].insert(0, '/Users/mindaika/Downloads/')   
 
     fields['prompt_label'] = ttk.Label(text='Tell me what you want to draw and pixellate')
     fields['prompt'] = ttk.Entry()
@@ -132,11 +137,12 @@ def get_input():
     pixel_size = int(fields['pixel_size'].get())
     num_colors = int(fields['num_colors'].get())
     prompt = str(fields['prompt'].get())
+    path = str(fields['path'].get())
 
     # Destroy the window
     root.destroy()
 
-    return pixel_size, num_colors, prompt
+    return pixel_size, num_colors, prompt, path
 
 def generate_image(prompt: str):
     """
@@ -163,11 +169,12 @@ def generate_image(prompt: str):
 
         return image_url
 
-    except Exception as e:
-        print(f"Error generating image: {e}")
+    except openai.OpenAIError as e:
+        print(e)
+
         return None
 
-def pixellate(output_path):
+def pixellate():
     """
     Pixellates an image, reduces the number of colors, and saves the result.
 
@@ -188,7 +195,7 @@ def pixellate(output_path):
     """
 
     # Get the pixel size, number of colors, and prompt text
-    pixel_size, num_colors, prompt = get_input()
+    pixel_size, num_colors, prompt, path = get_input()
 
     # Use the Prompt API to generate an image and convert it to an ImageFile object
     image_url = generate_image(prompt)
@@ -203,9 +210,12 @@ def pixellate(output_path):
     # Reduce the number of colors
     low_color_image = reduce_colors(pixelated_image, num_colors)
 
+    # Get the output path
+    output = path + generate_random_filename()
+
     # Save the image
-    low_color_image.save(output_path)
-    print(f"Saved {output_path}")
+    low_color_image.save(output)
+    print(f"Saved {output}")
 
 def create_image_file_object(image_url):
     """
@@ -231,9 +241,9 @@ def create_image_file_object(image_url):
         # Optionally, convert the Image to an ImageFile object
         if isinstance(image, ImageFile):
             return image  # It's already an ImageFile
-        else:
-            # Convert explicitly if necessary
-            return image.convert("RGB")  # or appropriate mode
+
+        # Convert explicitly if necessary
+        return image.convert("RGB")  # or appropriate mode
 
     except (requests.exceptions.RequestException, UnidentifiedImageError) as e:
         print(f"Error creating image file object: {e}")
@@ -252,5 +262,4 @@ def generate_random_filename():
     random_part = uuid.uuid4().hex[:8]  # Generate a random unique string (8 characters)
     return f"IMAGE-{random_part}.png"
 
-OUTPUT_PATH = '/Users/mindaika/Downloads/' + generate_random_filename()
-pixellate(OUTPUT_PATH)
+pixellate()
