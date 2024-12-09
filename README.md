@@ -1,4 +1,5 @@
 Seems like I have some free time, so here's some sideprojects
 
 ## Pixify
-A tool to take a perfectly good AI-generated image and make it worse. I suppose it doesn't have to be AI-generated, but now that I think about it...
+
+A tool to take in a prompt and return a pixel-art modified version of the image returned from openAI
