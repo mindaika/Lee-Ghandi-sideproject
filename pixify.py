@@ -110,7 +110,7 @@ def get_input():
     fields['num_colors_label'] = ttk.Label(text='Enter the number of colors:')
     fields['num_colors'] = ttk.Entry(show="*")
     fields['num_colors'].insert(0, "256")
- 
+
     fields['path_label'] = ttk.Label(text='Where do you wanna stick it?')
     fields['path'] = ttk.Entry()
     fields['path'].insert(0, '/Users/mindaika/Downloads/')   
@@ -169,8 +169,8 @@ def generate_image(prompt: str):
 
         return image_url
 
-    except openai.OpenAIError as e:
-        print(e)
+    except openai.APIError as e:
+        print(e.message)
 
         return None
 
@@ -195,7 +195,13 @@ def pixellate():
     """
 
     # Get the pixel size, number of colors, and prompt text
-    pixel_size, num_colors, prompt, path = get_input()
+    try:
+        pixel_size, num_colors, prompt, path = get_input()
+
+    # Gracefully handles closing the dialog
+    except tk.TclError as e:
+        print("Dialog closed; no " + str(e))
+        return
 
     # Use the Prompt API to generate an image and convert it to an ImageFile object
     image_url = generate_image(prompt)
