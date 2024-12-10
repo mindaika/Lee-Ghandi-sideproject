@@ -1,11 +1,17 @@
 import pytest
+import os
 from PIL import Image
+from PIL.ImageFile import ImageFile
 from io import BytesIO
 import requests
 import tkinter as tk
 from unittest.mock import patch, MagicMock
 import pixify
 
+def test_pytest_env_variable():
+    pytest_current_test = os.getenv("PYTEST_CURRENT_TEST")
+    print(f"PYTEST_CURRENT_TEST: {pytest_current_test}")
+    assert pytest_current_test is not None, "PYTEST_CURRENT_TEST is not set!"
 
 def test_load_image():
     # Create a mock image file
@@ -34,7 +40,7 @@ def test_reduce_colors():
     reduced_image = pixify.reduce_colors(image, 16)
     assert reduced_image.getcolors() is not None
 
-def test_get_input(monkeypatch):
+def test_get_input(monkeypatch: pytest.MonkeyPatch):
     # Mock the tkinter input
     def mock_get_input():
         return 32, 256, "test prompt", "/test/path/"
@@ -50,12 +56,20 @@ def test_get_input(monkeypatch):
 def test_create_image_file_object(mock_get):
     # Mock the requests.get response
     mock_response = MagicMock()
-    mock_response.content = BytesIO()
+    mock_response.status_code = 200
+    mock_response.headers = {'Content-Type': 'image/png'}
+    with open(r"./test_image.png", "rb") as image_file:
+        image_bytes = image_file.read()
+    mock_response.content = image_bytes
     mock_get.return_value = mock_response
 
     # Test the create_image_file_object function
-    image_url = "http://example.com/test_image.png"
+    image_url = (
+        "https://www.adverthia.com/wp-content/uploads/2020/02/"
+        "instagram-logo-png-transparent-background-1024x1024-1.png"
+    )
     image = pixify.create_image_file_object(image_url)
+
     assert isinstance(image, Image.Image)
 
 def test_generate_random_filename():

@@ -236,9 +236,13 @@ def create_image_file_object(image_url):
     try:
         # Fetch the image from the URL
         response = requests.get(image_url, timeout=60)
-        response.raise_for_status()  # Raise an error for bad responses
+
+        # Raise an error for bad responses
+        response.raise_for_status()
+
         # Load the image into a BytesIO stream
         image_stream = BytesIO(response.content)
+
         # Create an Image object using PIL
         image = Image.open(image_stream)
 
@@ -266,4 +270,11 @@ def generate_random_filename():
     random_part = uuid.uuid4().hex[:8]  # Generate a random unique string (8 characters)
     return f"IMAGE-{random_part}.png"
 
-pixellate()
+def main():
+    """
+    Main function to execute the pixellate process.
+    """
+    pixellate()
+
+if __name__ == "__main__":
+    main()
