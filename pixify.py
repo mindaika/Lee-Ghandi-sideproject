@@ -33,9 +33,6 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import requests
 
-load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
 # Load an image from a file
 def load_image(image_path):
     """
@@ -113,7 +110,7 @@ def get_input():
 
     fields['path_label'] = ttk.Label(text='Where do you wanna stick it?')
     fields['path'] = ttk.Entry()
-    fields['path'].insert(0, '/Users/mindaika/Downloads/')   
+    fields['path'].insert(0, '/Users/mindaika/Downloads/')
 
     fields['prompt_label'] = ttk.Label(text='Tell me what you want to draw and pixellate')
     fields['prompt'] = ttk.Entry()
@@ -154,7 +151,8 @@ def generate_image(prompt: str):
     Raises:
         Exception: If there is an error during the image generation process.
     """
-    OpenAI.api_key = OPENAI_API_KEY
+    load_dotenv()
+    OpenAI.api_key = os.getenv("OPENAI_API_KEY")
     client = OpenAI()
 
     try:
