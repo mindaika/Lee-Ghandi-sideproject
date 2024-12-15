@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "lee-ghandi-sideproject"
-version = "0.1.0"
+name = "barnacle-hourglass"
+version = "0.2.0"
 description = "A collection of side-projects"
 authors = ["Randall Sewell <mindaika@garbanzo.monster>"]
 readme = "README.md"
