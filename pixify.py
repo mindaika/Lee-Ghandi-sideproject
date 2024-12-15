@@ -20,18 +20,21 @@ Functions:
     generate_random_filename():
         Generates a random filename for the output image.
 """
+# Standard library imports
 import os
-from io import BytesIO
-import uuid
 import tkinter as tk
+import uuid
+from io import BytesIO
 from tkinter import ttk
-from PIL import Image
-from PIL import UnidentifiedImageError
-from PIL.ImageFile import ImageFile
+
+# Third-party imports
 import openai
-from openai import OpenAI
-from dotenv import load_dotenv
 import requests
+from dotenv import load_dotenv
+from openai import OpenAI
+from PIL import Image, UnidentifiedImageError
+from PIL.ImageFile import ImageFile
+
 
 # Load an image from a file
 def load_image(image_path):

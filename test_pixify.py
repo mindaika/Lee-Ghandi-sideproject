@@ -1,12 +1,18 @@
-import pytest
+# Standard library imports
 import os
+import tkinter as tk
+from io import BytesIO
+from unittest.mock import MagicMock, patch
+
+# Third-party imports
+import pytest
+import requests
 from PIL import Image
 from PIL.ImageFile import ImageFile
-from io import BytesIO
-import requests
-import tkinter as tk
-from unittest.mock import patch, MagicMock
+
+# Local application imports
 import pixify
+
 
 def test_pytest_env_variable():
     pytest_current_test = os.getenv("PYTEST_CURRENT_TEST")
